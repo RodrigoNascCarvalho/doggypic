@@ -1,18 +1,19 @@
 <template>
     <Page>
         <ActionBar title="Select your breed:"/>
-        <GridLayout columns="*" rows="*">
-            <ActivityIndicator :busy="loading" />
-            <ListPicker :items="breedList"
+        <FlexboxLayout flexDirection="column">
+            <ActivityIndicator height="10%" :busy="loading" @busyChange="test"/>
+            <ListPicker height="80%" :items="breedList"
                         selectedIndex=""
                         @selectedIndexChange="onSelectionChange"
+                        v-if="!loading"
                 />
-        </GridLayout>
+            <Button height="10%" text="Button" @tap="onButtonTap" />
+        </FlexboxLayout >
     </Page>
 </template>
 
 <script>
-//import axios from "axios"
     import * as http from "http";
 
     export default {
@@ -28,6 +29,12 @@
             },
             onSelectionChange() {
                 return;
+            },
+            test(value) {
+                console.log('changed', value)
+            },
+            onButtonTap() {
+                this.loading = !this.loading;
             }
         },
         mounted() {

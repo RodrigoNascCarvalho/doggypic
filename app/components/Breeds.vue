@@ -10,7 +10,7 @@
             <Gradient direction="to right" colors="#ff6e92, #ffa36d, #ff6e92">
                 <FlexboxLayout flexDirection="column" v-cloak>
                     <ActivityIndicator height="100%" :busy="loading" v-show="loading"/>
-                        <ListView height="100%" for="breed in breedList" v-if="breedList.length" separatorColor="#ffe2e2">
+                        <ListView @itemTap="onItemTap" height="100%" for="breed in breedList" v-if="breedList.length" separatorColor="#ffe2e2">
                             <v-template>
                                 <StackLayout>
                                     <Label class="doggo" :text="breed" />
@@ -25,6 +25,7 @@
 
 <script>
     import * as http from "http";
+    import BreedsImage from './BreedsImage.vue';
 
     export default {
         data() {
@@ -43,28 +44,18 @@
             test(value) {
                 console.log('changed', value)
             },
-            onButtonTap() {
-                this.loading = !this.loading;
+            onItemTap(event){
+
+                this.$navigateTo(BreedsImage, {
+                    props:{
+                        selectedBreed: event.item
+                    }
+                })
             }
         },
-        created() {
-            /**
-             * - Calls Dog CEO API
-             * - Data will be in the form:
-             * {"status":"success","message":{"affenpinscher":[],"african":[], ... }
-             * - We want something like:
-             * [ "Affenpinscher", "African", ... ]
-             */
+        mounted() {
             http.getJSON('https://dog.ceo/api/breeds/list/all').then(data => {
-                    /**
-                     * Object.keys transforms:
-                     * { "a": 1, "b": 2 }
-                     * into
-                     * ["a", "b"]
-                     * */
-                    this.breedList = Object.keys(data.message).map(function(breed) {
-                        return breed + '  doggo'
-                    })
+                    this.breedList = Object.keys(data.message).map(breed => breed)
                 })
                 .catch(err => {
                     console.error('There was an error:', err)

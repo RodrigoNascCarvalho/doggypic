@@ -1,44 +1,41 @@
 <template>
-    <Page>
-        <ActionBar title="Doggy Pic" flat="true"/>
+    <AppPage ref="page">
         <DockLayout stretchLastChild="true" >
             <Image :src="src_img" />
         </DockLayout>
-    </Page>
+    </AppPage>
 </template>
 
 <script>
-import * as http from "http";
+import * as http from 'http'
+import AppPage from './AppPage.vue'
 
-    export default {
-        data() {
-            return {
-                loading: true,
-                src_img: ''
-            }
-        },
-        props: [
-            'selectedBreed',
-        ],
-        methods: {
-            setLoading(status) {
-                this.loading = status
-            }
-        },
-        mounted() {
-            http.getJSON('https://dog.ceo/api/breed/' + this.selectedBreed + '/images/random')
-                .then(result => {
-                   this.src_img = result.message
-                })
-                .catch(err => {
-                    console.error('There was an error:', err)
-                })
-                .finally(() => {
-                    this.setLoading(false)
-                });
-
-        },
+export default {
+  components: {
+    AppPage
+  },
+  data () {
+    return {
+      loading: true,
+      src_img: ''
     }
+  },
+  props: [
+    'selectedBreed'
+  ],
+  mounted () {
+    http.getJSON('https://dog.ceo/api/breed/' + this.selectedBreed + '/images/random')
+      .then(result => {
+        this.src_img = result.message
+      })
+      .catch(err => {
+        console.error('There was an error:', err)
+      })
+      .finally(() => {
+        this.$refs.page.setLoading(false)
+      })
+  }
+}
 </script>
 
 <style scoped>

@@ -4,7 +4,7 @@
       <ListView @itemTap="onItemTap" height="100%" for="breed in breedList" v-if="breedList.length" separatorColor="#ffe2e2">
         <v-template>
           <StackLayout>
-            <Label class="doggo" :text="breed"/>
+            <Label class="doggo" :text="breed.name"/>
           </StackLayout>
         </v-template>
       </ListView>
@@ -31,7 +31,7 @@ export default {
     onItemTap (event) {
       this.$navigateTo(BreedsImage, {
         props: {
-          selectedBreed: event.item
+          selectedBreed: event.item.value
         }
       })
     }
@@ -39,7 +39,9 @@ export default {
   mounted () {
     http.getJSON('https://dog.ceo/api/breeds/list/all')
       .then(data => {
-        this.breedList = Object.keys(data.message).map(breed => breed)
+        const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
+
+        this.breedList = Object.keys(data.message).map(breed => ({ name: capitalize(breed), value: breed }))
       })
       .catch(err => {
         console.error('There was an error:', err)

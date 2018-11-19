@@ -1,32 +1,14 @@
 <template>
-    <Page>
-        <ActionBar title="Welcome to NativeScript-Vue!"/>
-        <GridLayout columns="*" rows="*">
-            <Label class="message" :text="msg" col="0" row="0"/>
-        </GridLayout>
-    </Page>
+    <Breeds />
 </template>
 
 <script>
+  import Breeds from './Breeds.vue'
+
   export default {
-    data() {
-      return {
-        msg: 'Hello World!'
-      }
+    //here we have to declare the dependencies for App, in this case Breeds
+    components: {
+        Breeds
     }
   }
 </script>
-
-<style scoped>
-    ActionBar {
-        background-color: #53ba82;
-        color: #ffffff;
-    }
-
-    .message {
-        vertical-align: center;
-        text-align: center;
-        font-size: 20;
-        color: #333333;
-    }
-</style>

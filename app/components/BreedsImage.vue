@@ -16,7 +16,6 @@ export default {
   },
   data () {
     return {
-      loading: true,
       src_img: ''
     }
   },
@@ -39,33 +38,6 @@ export default {
 </script>
 
 <style scoped>
-    [v-cloak] {
-        display: none;
-    }
-
-    ActionBar {
-        background-image: linear-gradient(to bottom, #53ba82, #68a182);
-        color: #ffffff;
-    }
-
-    .context-section {
-        background-color: #53ba82;
-    }
-
-    .context-section .context-text {
-        width: 100%;
-        height: 100%;
-        padding: 15px 30px;
-        font-size: 20;
-        font-weight: 700;
-        color: #ffffff;
-    }
-
-    ActivityIndicator {
-        width: 20%;
-        height: auto;
-    }
-
     Image {
         width: 100%;
     }

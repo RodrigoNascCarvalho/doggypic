@@ -16,6 +16,7 @@
   "dependencies": {
     "@vue/devtools": "5.0.0-beta.3",
     "nativescript-gradient": "^2.0.1",
+    "nativescript-permissions": "^1.2.3",
     "nativescript-socket.io": "^0.9.0",
     "nativescript-theme-core": "^1.0.4",
     "nativescript-toast": "^1.4.6",

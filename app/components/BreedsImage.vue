@@ -10,8 +10,12 @@
 </template>
 
 <script>
+/* global android */
 import * as http from 'http'
 import AppPage from './AppPage.vue'
+import { path } from 'tns-core-modules/file-system'
+import { fromUrl } from 'tns-core-modules/image-source'
+import { makeText } from 'nativescript-toast'
 
 export default {
   components: {
@@ -37,9 +41,21 @@ export default {
         this.$refs.page.setLoading(false)
       })
   },
-  methods:{
-    onTap(){
-      console.log("cricou")
+  methods: {
+    async onTap () {
+      try {
+        const img = await fromUrl(this.src_img)
+        const downloadFolder = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).toString()
+        const pathDest = path.join(downloadFolder, this.selectedBreed + '.png')
+        const saved = img.saveToFile(pathDest, 'png')
+        if (saved) {
+          const toast = makeText(`Saved ${this.selectedBreed} image to ${pathDest}`, 'long')
+          toast.show()
+        }
+      } catch (err) {
+        const errorToast = makeText(`Error saving image`, 'long')
+        errorToast.show()
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
     <AppPage ref="page">
         <DockLayout stretchLastChild="true" >
             <GridLayout rows="220, auto" columns="*, *, *">
-              <Image :src="src_img" stretch="aspectFill" colSpan="3" row="0" @tap="onTap" />
+              <Image :src="img" stretch="aspectFill" colSpan="3" row="0" @tap="onTap" />
               <Label :text="this.selectedBreed" class="info" textWrap="true" row="0" colSpan="10" horizontalAlignment="center" verticalAlignment="center"/>
             </GridLayout>
         </DockLayout>
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      src_img: ''
+      img: ''
     }
   },
   props: [
@@ -31,8 +31,9 @@ export default {
   ],
   mounted () {
     http.getJSON('https://dog.ceo/api/breed/' + this.selectedBreed + '/images/random')
-      .then(result => {
-        this.src_img = result.message
+      .then(async result => {
+        const src_img = result.message
+        this.img = await fromUrl(src_img)
       })
       .catch(err => {
         console.error('There was an error:', err)
@@ -44,10 +45,9 @@ export default {
   methods: {
     async onTap () {
       try {
-        const img = await fromUrl(this.src_img)
         const downloadFolder = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).toString()
         const pathDest = path.join(downloadFolder, this.selectedBreed + '.png')
-        const saved = img.saveToFile(pathDest, 'png')
+        const saved = this.img.saveToFile(pathDest, 'png')
         if (saved) {
           const toast = makeText(`Saved ${this.selectedBreed} image to ${pathDest}`, 'long')
           toast.show()

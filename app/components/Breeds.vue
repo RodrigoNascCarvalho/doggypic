@@ -1,6 +1,5 @@
 <template>
   <AppPage ref="page" section-name="Select your breed:">
-    <Gradient direction="to right" colors="#ff6e92, #ffa36d, #ff6e92">
       <ListView @itemTap="onItemTap" height="100%" for="breed in breedList" v-if="breedList.length" separatorColor="#ffe2e2">
         <v-template>
           <StackLayout>
@@ -8,7 +7,6 @@
           </StackLayout>
         </v-template>
       </ListView>
-    </Gradient>
   </AppPage>
 </template>
 
@@ -57,7 +55,6 @@ export default {
     ListView .doggo {
         font-size: 20px;
         font-weight: 500;
-        color: #fff0e1;
         text-align: center;
         padding: 50px;
     }
